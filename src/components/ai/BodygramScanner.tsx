@@ -184,7 +184,7 @@ const BodygramScanner = ({ userId, onScanComplete }: BodygramScannerProps) => {
             allow="camera; microphone; display-capture; accelerometer; gyroscope; magnetometer; autoplay; fullscreen"
             title="Bodygram Scanner"
           />
-          <div className="absolute bottom-2 left-2 z-20 flex gap-2">
+          <div className="left-2 z-20 flex gap-2">
             <Button
               variant="outline"
               onClick={() => scannerUrl && window.open(scannerUrl, "_blank")}

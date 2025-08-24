@@ -1,7 +1,6 @@
 import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
-import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -15,17 +14,15 @@ export default defineConfig(({ mode }) => {
       host: "::",
       port: 8080,
       proxy: {
-        "/chat": backend,
-        "/auth": backend,
-        "/dashboard": backend,
-        "/design": backend,
-        "/api": backend,
-        "/bodygram": backend,
+        "/chat": { target: backend, changeOrigin: true, secure: false },
+        "/auth": { target: backend, changeOrigin: true, secure: false },
+        "/dashboard": { target: backend, changeOrigin: true, secure: false },
+        "/design": { target: backend, changeOrigin: true, secure: false },
+        "/api": { target: backend, changeOrigin: true, secure: false },
+        "/bodygram": { target: backend, changeOrigin: true, secure: false },
       },
     },
-    plugins: [react(), mode === "development" && componentTagger()].filter(
-      Boolean
-    ),
+    plugins: [react()],
     resolve: {
       alias: {
         "@": path.resolve(__dirname, "./src"),
