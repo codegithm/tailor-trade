@@ -25,15 +25,22 @@ const BodygramScanner = ({ userId, onScanComplete }: BodygramScannerProps) => {
 
   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
-      // Listen for scan completion from Bodygram
-      if (typeof event.data === "object" && event.data?.type === 2) {
-        // type 2 = scan complete
-        onScanComplete(event.data.payload);
-        setShowScanner(false);
-      }
-      // type 0 = close signal
-      if (typeof event.data === "object" && event.data?.type === 0) {
-        setShowScanner(false);
+      // Helpful debug log for Bodygram messages
+      console.log("Bodygram message:", event.origin, event.data);
+      try {
+        // Listen for scan completion from Bodygram
+        if (typeof event.data === "object" && event.data?.type === 2) {
+          // type 2 = scan complete
+          onScanComplete(event.data.payload);
+          setShowScanner(false);
+        }
+        // type 0 = close signal
+        if (typeof event.data === "object" && event.data?.type === 0) {
+          setShowScanner(false);
+        }
+      } catch (err) {
+        // Swallow any parsing errors from cross-origin messages
+        console.warn("Failed to process Bodygram message", err);
       }
     };
     window.addEventListener("message", handleMessage);
@@ -96,7 +103,8 @@ const BodygramScanner = ({ userId, onScanComplete }: BodygramScannerProps) => {
         return;
       }
       const orgId = import.meta.env.VITE_BODYGRAM_ORG_ID;
-      const url = `https://platform.bodygram.com/en/${orgId}/scan?token=${data.token}&system=metric&tap=true`;
+      // Use production embed URL (remove debug/test flags like tap=true)
+      const url = `https://platform.bodygram.com/en/${orgId}/scan?token=${data.token}&system=metric`;
       setScannerUrl(url);
       setShowScanner(true);
     } catch (err) {
@@ -183,7 +191,10 @@ const BodygramScanner = ({ userId, onScanComplete }: BodygramScannerProps) => {
             src={scannerUrl!}
             style={{ width: "100%", height: "100%", border: "none" }}
             allow="camera; microphone; display-capture; accelerometer; gyroscope; magnetometer; autoplay; fullscreen"
+            allowFullScreen
             title="Bodygram Scanner"
+            onLoad={() => console.log("Bodygram iframe loaded")}
+            onError={(e) => console.error("Bodygram iframe error", e)}
           />
           <div className="left-2 z-20 flex gap-2">
             <Button
