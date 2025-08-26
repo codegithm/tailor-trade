@@ -6,6 +6,7 @@ import {
   useEffect,
 } from "react";
 import { User, UserRole } from "../types";
+import { BACKEND_URL } from "@/lib/config";
 
 type AuthContextType = {
   user: User | null;
@@ -45,7 +46,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setIsLoading(true);
     setError(null);
     try {
-      const res = await fetch("/auth/login", {
+      const res = await fetch(`${BACKEND_URL}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -76,7 +77,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setIsLoading(true);
     setError(null);
     try {
-      const res = await fetch("/auth/register", {
+      const res = await fetch(`${BACKEND_URL}/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password, name, role }),

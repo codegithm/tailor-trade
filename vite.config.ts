@@ -6,8 +6,7 @@ import path from "path";
 export default defineConfig(({ mode }) => {
   // load .env files and pick backend URL (supports BACKEND_URL or VITE_BACKEND_URL)
   const env = loadEnv(mode, process.cwd(), "");
-  const backend =
-    env.BACKEND_URL || env.VITE_BACKEND_URL || "http://localhost:4000";
+  const backend = env.VITE_BACKEND_URL;
 
   return {
     server: {

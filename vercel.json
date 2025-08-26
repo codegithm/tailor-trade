@@ -1,0 +1,16 @@
+{
+  "rewrites": [
+    { "source": "/auth/:path*", "destination": "/api/proxy/auth/:path*" },
+    { "source": "/api/:path*", "destination": "/api/proxy/api/:path*" },
+    { "source": "/chat/:path*", "destination": "/api/proxy/chat/:path*" },
+    { "source": "/design/:path*", "destination": "/api/proxy/design/:path*" },
+    {
+      "source": "/dashboard/:path*",
+      "destination": "/api/proxy/dashboard/:path*"
+    },
+    {
+      "source": "/bodygram/:path*",
+      "destination": "/api/proxy/bodygram/:path*"
+    }
+  ]
+}
