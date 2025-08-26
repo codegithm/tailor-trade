@@ -12,6 +12,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import BodygramScanner from "@/components/ai/BodygramScanner";
 import { useAuth } from "../contexts/AuthContext";
+import { BACKEND_URL } from "@/lib/config";
 
 const AIMeasurement = () => {
   const [step, setStep] = useState(1);
@@ -25,11 +26,14 @@ const AIMeasurement = () => {
     setMeasurements(data);
     setStep(2);
     try {
-      const res = await fetch(`/dashboard/measurements/${user?.id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
+      const res = await fetch(
+        `${BACKEND_URL}/dashboard/measurements/${user?.id}`,
+        {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        }
+      );
       if (!res.ok) throw new Error("Failed to save measurements");
       toast({
         title: "Measurements processed!",
@@ -64,7 +68,7 @@ const AIMeasurement = () => {
       setMeasurements(measurements);
       setStep(2);
       // Save to backend
-      await fetch(`/dashboard/measurements/${user?.id}`, {
+      await fetch(`${BACKEND_URL}/dashboard/measurements/${user?.id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(measurements),

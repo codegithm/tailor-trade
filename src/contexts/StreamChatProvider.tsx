@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { StreamChat } from "stream-chat";
 import { Chat } from "stream-chat-react";
+import { BACKEND_URL } from "@/lib/config";
 
 const StreamChatContext = createContext(null);
 
@@ -15,7 +16,7 @@ export function StreamChatProvider({ user, children }) {
   useEffect(() => {
     if (!user) return;
     // Fetch Stream token from backend
-    fetch("/api/stream/token", {
+    fetch(`${BACKEND_URL}/api/stream/token`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ userId: user.id }),

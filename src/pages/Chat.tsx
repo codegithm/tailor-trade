@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import ChatSidebar from "@/components/chat/ChatSidebar";
 import { ChatRoom, User } from "@/types";
+import { BACKEND_URL } from "@/lib/config";
 
 const Chat = () => {
   const { user } = useAuth();
@@ -23,10 +24,10 @@ const Chat = () => {
   useEffect(() => {
     if (user) {
       setCurrentUserId(user.id);
-      fetch(`/chat/rooms/${user.id}`)
+      fetch(`${BACKEND_URL}/chat/rooms/${user.id}`)
         .then((res) => res.json())
         .then((data) => setRooms(data.rooms || []));
-      fetch("/chat/users")
+      fetch(`${BACKEND_URL}/chat/users`)
         .then((res) => res.json())
         .then((data) => setUsers(data.users || []));
     }

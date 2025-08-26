@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { BACKEND_URL } from "@/lib/config";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -21,7 +22,7 @@ export async function logHttpAction({
   error?: any;
 }) {
   try {
-    await fetch("/api/log", {
+    await fetch(`${BACKEND_URL}/api/log`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
+import { BACKEND_URL } from "@/lib/config";
 
 // NOTE: For camera access in iframe to work reliably:
 // - Your site and the Bodygram Scanner must be served over HTTPS.
@@ -83,7 +84,7 @@ const BodygramScanner = ({ userId, onScanComplete }: BodygramScannerProps) => {
 
     // After permission granted (or at least prompt shown), fetch token and open iframe on the same page
     try {
-      const res = await fetch("/bodygram/scan-token", {
+      const res = await fetch(`${BACKEND_URL}/bodygram/scan-token`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userId }),

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
+import { BACKEND_URL } from "@/lib/config";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -47,7 +48,7 @@ const Profile = () => {
 
   useEffect(() => {
     if (user?.id) {
-      fetch(`/dashboard/measurements/${user.id}`)
+      fetch(`${BACKEND_URL}/dashboard/measurements/${user.id}`)
         .then((res) => res.json())
         .then((data) => {
           if (data.measurements && data.measurements.length > 0) {
@@ -67,7 +68,7 @@ const Profile = () => {
   };
 
   const handleMeasurementsSave = () => {
-    fetch(`/dashboard/measurements/${user?.id}`, {
+    fetch(`${BACKEND_URL}/dashboard/measurements/${user?.id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(measurements),
