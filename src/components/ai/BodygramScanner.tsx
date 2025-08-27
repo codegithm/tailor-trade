@@ -103,9 +103,11 @@ const BodygramScanner = ({ userId, onScanComplete }: BodygramScannerProps) => {
         return;
       }
       const orgId = import.meta.env.VITE_BODYGRAM_ORG_ID;
-      // Use production embed URL (remove debug/test flags like tap=true)
-      const url = `https://platform.bodygram.com/en/${orgId}/scan?token=${data.token}&system=metric`;
-      setScannerUrl(url);
+      // Build a proxied URL that serves Bodygram scanner under our origin
+      const proxied = `/api/bodygram-proxy?token=${encodeURIComponent(
+        data.token
+      )}&org=${encodeURIComponent(orgId)}`;
+      setScannerUrl(proxied);
       setShowScanner(true);
     } catch (err) {
       console.error("Failed to fetch scan token:", err);
